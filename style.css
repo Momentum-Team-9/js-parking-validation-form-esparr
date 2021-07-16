@@ -43,8 +43,11 @@
     color: #DC2626;
 }
 
-.input-invalid > input {
+/* .input-invalid > input {
   border-color:  #DC2626;
+} */
+.input-invalid {
+  border:1px solid #DC2626;
 }
 
 .input-valid > label {
