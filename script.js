@@ -3,6 +3,8 @@ console.log("Add validation!");
 const form = document.querySelector("#parking-form");
 const caryear = document.querySelector("#car-year");
 const numberOfDays = document.querySelector("#days");
+const cvv = document.querySelector("#cvv");
+const totalDiv = document.querySelector('#total')
 
 let formIsValid;
 
@@ -21,10 +23,11 @@ document.getElementById("expiration").required = true;
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   console.log("Form submitted");
+  totalCost()
 });
 
-// Runs at form input
-caryear.addEventListener("blur", function (event) {
+// Runs at Car Year input change
+caryear.addEventListener("change", function (event) {
   event.preventDefault();
   validateCarYear();
 });
@@ -39,17 +42,45 @@ function validateCarYear() {
   }
 }
 
-numberOfDays.addEventListener("blur", function (event) {
+// Runs at Number of Days input change
+numberOfDays.addEventListener("change", function (event) {
   event.preventDefault();
   validateDays();
 });
 
-
+// Validates number of days
 function validateDays() {
   if (numberOfDays.value < 30 && numberOfDays.value !== "") {
     console.log("Number of Days is valid");
     formIsValid = true;
   } else {
     numberOfDays.setCustomValidity("Maximum Number of days is 30.");
+  }
+}
+
+// Runs at CVV input change
+cvv.addEventListener("change", function (event) {
+  event.preventDefault();
+  validateCvv();
+});
+
+// Validates CVV
+function validateCvv() {
+  if (cvv.value > 999 || cvv.value < 100) {
+    cvv.setCustomValidity("CVV must be three digits.");
+  } else {
+    formIsValid = true;
+    console.log("CVV is valid");
+  }
+}
+
+// Calculates total cost when form is submitted
+function totalCost() {
+  if (formIsValid = true) {
+    const cost = (5 * numberOfDays.value)
+    console.log(cost)
+    totalDiv.innerText = 'Total is $' + cost
+  } else {
+    totalDiv.innerText = 'Unable to calculate total.'
   }
 }
