@@ -4,7 +4,9 @@ const form = document.querySelector("#parking-form");
 const caryear = document.querySelector("#car-year");
 const numberOfDays = document.querySelector("#days");
 const cvv = document.querySelector("#cvv");
-const totalDiv = document.querySelector('#total')
+const totalDiv = document.querySelector("#total");
+const creditCard = document.querySelector("#credit-card");
+const expiration = document.querySelector("#expiration");
 
 let formIsValid;
 
@@ -23,7 +25,7 @@ document.getElementById("expiration").required = true;
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   console.log("Form submitted");
-  totalCost()
+  totalCost();
 });
 
 // Runs at Car Year input change
@@ -74,13 +76,47 @@ function validateCvv() {
   }
 }
 
-// Calculates total cost when form is submitted
+// Calculates total cost at $5/day when form is submitted
 function totalCost() {
-  if (formIsValid = true) {
-    const cost = (5 * numberOfDays.value)
-    console.log(cost)
-    totalDiv.innerText = 'Total is $' + cost
+  if ((formIsValid = true)) {
+    const cost = 5 * numberOfDays.value;
+    console.log(cost);
+    totalDiv.innerText = "Total is $" + cost;
   } else {
-    totalDiv.innerText = 'Unable to calculate total.'
+    totalDiv.innerText = "Unable to calculate total.";
   }
+}
+
+// Runs at credit card number input
+creditCard.addEventListener("input", function (event) {
+  event.preventDefault();
+  if (validateCardNumber(creditCard.value) === false) {
+    creditCard.setCustomValidity("Credit card number not valid.");
+  } else {
+    formIsValid = true;
+    console.log("Credit card number is valid.");
+  }
+});
+
+// Validates credit card number
+function validateCardNumber(number) {
+  var regex = new RegExp("^[0-9]{16}$");
+  if (!regex.test(number)) return false;
+
+  return luhnCheck(number);
+}
+
+function luhnCheck(val) {
+  var sum = 0;
+  for (var i = 0; i < val.length; i++) {
+    var intVal = parseInt(val.substr(i, 1));
+    if (i % 2 == 0) {
+      intVal *= 2;
+      if (intVal > 9) {
+        intVal = 1 + (intVal % 10);
+      }
+    }
+    sum += intVal;
+  }
+  return sum % 10 == 0;
 }
