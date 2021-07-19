@@ -2,11 +2,13 @@ console.log("Add validation!");
 
 const form = document.querySelector("#parking-form");
 const caryear = document.querySelector("#car-year");
+const date = document.querySelector("#start-date");
 const numberOfDays = document.querySelector("#days");
 const cvv = document.querySelector("#cvv");
 const totalDiv = document.querySelector("#total");
 const creditCard = document.querySelector("#credit-card");
 const expiration = document.querySelector("#expiration");
+const startDate = document.querySelector('#start-date')
 
 let formIsValid;
 
@@ -87,6 +89,34 @@ function totalCost() {
   }
 }
 
+// let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+// form.addEventListener("submit", function (event) {
+//   event.preventDefault();
+//   let dayOfWeek = startDate.getDay();
+//   console.log(dayOfWeek)
+// });
+
+// function totalWithWeekends() {
+//   let isWeekend = dayOfWeek === 6 || dayOfWeek === 0; // 6 = Saturday, 0 = Sunday
+//   let isWeekDay = dayOfWeek !== 6 && dayOfWeek !== 0;
+//   let startDate = new Date(date);
+//   let dayOfWeek = startDate.getDay();
+//   if (startDate )
+// }
+
+
+// const days = [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday];
+// const checkDay = days.reduce(
+//   function (result, element) {
+//     result[element] = element.index;
+//     return result;
+//   },
+//   { startDate }
+// );
+// console.log(element.index);
+
+
 // Runs at credit card number input
 creditCard.addEventListener("input", function (event) {
   event.preventDefault();
@@ -119,4 +149,40 @@ function luhnCheck(val) {
     sum += intVal;
   }
   return sum % 10 == 0;
+}
+
+expiration.addEventListener("input", function (event) {
+  event.preventDefault();
+  if (validateExpirationDate(expiration.value) === false) {
+    expiration.setCustomValidity("Date not valid.");
+  } else {
+    formIsValid = true;
+    console.log("Expiration Date is valid.");
+  }
+});
+
+function validateExpirationDate(number) {
+  var regexExpire = new RegExp('^(0[1-9]|1[0-2])\/?([0-9]{2})$');
+  if (!regexExpire.test(number)) return false;
+}
+
+startDate.addEventListener('input', function(event){
+  event.preventDefault()
+  validateParkingDateInFuture()
+})
+
+function validateParkingDateInFuture (){
+  let today = new Date()
+  let startDateNewFormat = new Date(starDate)
+  const year = startDateNewFormat.getFullYear()
+  const month = startDateNewFormat.getMonth()
+  const date = startDateNewFormat.getDate()
+  return year + '/' + month + '/' + date
+  console.log(todayNewFormat)
+  console.log(startDate.value)
+//   if (today > startDate.value) {
+//     startDate.setCustomValidity("Date not valid.");
+//   } else {
+//     console.log('Start date is valid.')
+//   }
 }
